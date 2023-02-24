@@ -1,0 +1,134 @@
+
+<div class="bg-light min-vh-100 d-flex flex-row">
+  <c-container>
+    <div class="img">
+      <i class="fa-solid fa-house-chimney-medical" style="font-size:100px;color:#0657B5;margin-bottom: 2rem;margin-top: 2rem;"></i>
+    </div>
+    <c-row class="justify-content-center">
+      <c-col md="8">
+        <c-card-group>
+          <c-card class="p-4">
+            <c-card-body>
+              <form cForm
+              *ngIf="!isLoggedIn"
+              name="form"
+              (ngSubmit)="f.form.valid && onCreate()"
+              #f="ngForm"
+              novalidate
+              >
+                <h1>Nouveau compte clinique</h1>
+                <p class="text-medium-emphasis">Veuillez remplir tout les champs</p>
+
+                <c-col [xs]="12" style="margin-bottom: 1rem;">
+                  <label cLabel for="nom">Nom *</label>
+                  <input cFormControl id="nom" name="nom" type="  text" [(ngModel)]="nom" placeholder="Nom" required/>
+                </c-col>
+                <!-- <div *ngIf="nom.errors && f.submitted">
+                  <div *ngIf="nom.errors['required']" class="message">Nom is required!</div>
+                  <div *ngIf="nom.errors['minlength']" class="message">
+                    Nom must be at least 3 characters!
+                  </div>
+                  <div *ngIf="nom.errors['maxlength']"  class="message">
+                    nom must be at most 20 characters!
+                  </div>
+                </div> -->
+
+                <c-col [xs]="12" style="margin-bottom: 1rem;">
+                  <label cLabel for="username">Username *</label>
+                  <input cFormControl id="username" name="username" type="text" [(ngModel)]="username" placeholder="Username" required/>
+                </c-col>
+            
+                <c-col [md]="12" style="margin-bottom: 1rem;">
+                  <label cLabel for="email">Email *</label>
+                  <input cFormControl id="email" name="email" type="email" [(ngModel)]="email" placeholder="Email" required/>
+                </c-col>
+                <c-col [md]="12" style="margin-bottom: 1rem;">
+                  <label cLabel for="password">Password *</label>
+                  <input cFormControl id="password" name="password" type="password" [(ngModel)]="password" placeholder="Mot de passe" required/>
+                </c-col>
+                <c-col [xs]="12" style="margin-bottom: 1rem;">
+                  <label cLabel for="ville">Ville *</label>
+                  <input cFormControl id="ville" name="ville" type="text" [(ngModel)]="ville" placeholder="Ville" required/>
+                </c-col>
+                <c-col [xs]="12" style="margin-bottom: 1rem;">
+                  <label cLabel for="adresse">Adresse *</label>
+                  <input cFormControl id="adresse" name="adresse" type="text" [(ngModel)]="adresse" placeholder="Commune, Quartier, Rue" required/>
+                </c-col>
+            
+                <c-col [xs]="12" style="margin-bottom: 1rem;">
+                  <label cLabel for="idSpec">Specialite *</label>
+                  <select aria-label="Default select example" cSelect id="idSpec" name="idSpec" [(ngModel)]="idSpec">
+                    <option selected disabled>--choisir specialite--</option>
+                    <option *ngFor="let sp of specialites" value="{{sp.idSpecialite}}">{{sp.libelleSpecialite}}</option>
+                  </select>
+                </c-col>
+                
+                <c-col [xs]="12" style="margin-bottom: 1rem;">
+                  <label cLabel for="contact">Contact *</label>
+                  <input cFormControl id="contact" name="contact" type="text" placeholder="Contact profesionnelle" [(ngModel)]="contact" required/>
+                </c-col>
+                <c-col [xs]="12" style="margin-bottom: 1rem;">
+                  <label cLabel for="date">Date de creation</label>
+                  <input cFormControl id="date" name="date" type="date" [(ngModel)]="date" required/>
+                </c-col>
+                <div class="mb-3" style="margin-bottom: 1rem;">
+                  <label cLabel for="img">Image</label>
+                  <input aria-label="file example" cFormControl id="img" name="img" type="file" (change)="recuperationImg($event)" required/>
+                  <c-form-feedback [valid]="false"
+                    >Example invalid form file feedback</c-form-feedback
+                  >
+                </div>
+                <div class="mb-3" style="margin-bottom: 1rem;">
+                  <label cLabel for="agrement">Agrement *</label>
+                  <input aria-label="file example" cFormControl id="agrement" name="agrement" type="file" (change)="recuperationImage($event)" required/>
+                  <c-form-feedback [valid]="false"
+                    >Example invalid form file feedback</c-form-feedback
+                  >
+                </div>
+                <!-- <c-col [xs]="12" style="margin-bottom: 1rem;">
+                  <label cLabel for="longitude">Longitude*</label>
+                  <input cFormControl id="longitude" name="longitude" [(ngModel)]="longitude" placeholder="longitude" required/>
+                </c-col>
+                <c-col [xs]="12" style="margin-bottom: 1rem;">
+                  <label cLabel for="latitude">Latitude*</label>
+                  <input cFormControl id="latitude" name="latitude" [(ngModel)]="latitude" placeholder="latitude" required/>
+                </c-col> -->
+                <div cFormFloating style="margin-bottom: 1rem;">
+                  <textarea
+                    [ngStyle]="{ 'height.px': 100 }"
+                    cFormControl
+                    id="description"
+                    name="description"
+                    placeholder="Description"
+                    [(ngModel)]="description"
+                    required
+                  >
+                  </textarea>
+                  <label cLabel for="description">Description</label>
+                </div>
+
+                <c-row>
+                  <c-col xs="6">
+                    <button class="btn btn-primary btn-block" >
+                      Créer un compte
+                    </button>
+                    <div class="form-group">
+                      <div
+                        class="alert alert-danger"
+                        role="alert"
+                        *ngIf="f.submitted && isLoginFailed"
+                      >
+                       {{ errorMess }}
+                      </div>
+                    </div>
+                  </c-col>
+                </c-row>
+              </form>
+
+            </c-card-body>
+          </c-card>
+        </c-card-group>
+      </c-col>
+    </c-row>
+  </c-container>
+</div>

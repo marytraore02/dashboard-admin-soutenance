@@ -1,0 +1,400 @@
+
+                          <section class="sec" >
+<div class="hb" >
+  <p class="back" (click)="back()" ><i class="bi bi-arrow-left-square-fill"></i> retour</p>
+  <h1 class="titre">Details <span style="font-size:30px;">{{clinique && clinique.nomEtPrenom}}</span> </h1>
+</div>
+          
+<!-- Carousel wrapper -->
+<div id="carouselMaterialStyle" class="carousel slide carousel-fade" data-mdb-ride="carousel">
+  <!-- Indicators -->
+
+  <div class="fade-in">
+    <c-row ngPreserveWhitespaces>
+      <c-col xs="12">
+       
+        <app-docs-callout href="components/carousel" name="Carousel">
+             <!--CARDS DE CLINICS-->
+             <c-row>
+              <c-col lg="6" sm="6" xs="12">
+                <c-widget-stat-f
+                  [title]="'Nombre medecin'"
+                  class="mb-3"
+                  color="primary"
+                  padding
+                  value="{{countListMedecin}}"
+                >
+                  <ng-template cTemplateId="widgetIconTemplate">
+                    <svg cIcon name="cilSettings" size="xl" width="24"></svg>
+                  </ng-template>
+                </c-widget-stat-f>
+              </c-col>
+            </c-row>
+            <!--CARDS DE CLINICS-->
+        </app-docs-callout>
+      </c-col>
+    </c-row>
+    <c-col xs="12">
+      <c-card class="mb-4">
+        <c-card-header>
+          <strong>Image</strong>
+        </c-card-header>
+        <c-card-body>
+
+            <!-- Image -->
+            <div>
+              <div class="carousel-item active" *ngIf="clinique && clinique.image">
+                <img *ngIf="clinique && clinique.image" src="{{clinique && clinique.image}}" class="d-block w-100" id="im"
+                  alt="Sunset Over the City" />
+                  <img  *ngIf="clinique && clinique.image == null" src="../../../../assets/images/angular.jpg"  class="d-block w-100" id="im">
+                <div class="carousel-caption d-none d-md-block">
+                  <h5 style="color:rgb(32, 32, 32);font-size: 35px;"><em>{{clinique && clinique.nomEtPrenom}}</em> </h5>
+                </div>
+              </div>
+            </div>
+            <!-- Image -->
+
+          
+        </c-card-body>
+
+
+      </c-card>
+    </c-col>
+  </div>
+
+
+
+<div style="margin-top:2rem"></div>
+
+
+
+<div class="detail">
+  <div class="head">
+
+    <div class="icon-head">
+      <i class="bi bi-map-fill" style="font-size:20px;color:#0657B5;padding-right: 1rem;margin-top: 2rem;"></i>
+      <h3 style="margin-bottom: 15px; margin-top: 2rem;">Localisation</h3>
+    </div>
+    <div class="text-detail">
+      <h3 style="margin-top: 2rem;"> Details </h3>
+    </div>
+    
+
+  </div>
+
+</div>
+
+
+
+     <!-- DETAIL-->
+      <div class="box-container" data-aos="zoom-in-up">
+
+        <div class="box">
+          <img *ngIf="listmedecins && listmedecins.image" src="{{listmedecins && listmedecins.image}}" alt="" class="carte">
+          <img *ngIf="listmedecins && listmedecins.image==null" src="../../../../assets/images/maplocate.png" alt="" class="carte">
+
+          <!-- <img src="../../../../assets/images/maplocate.png" alt="" class="carte"> -->
+        </div>
+
+          <div class="box">
+              <ul class="detail">
+                  <!-- <li><b>ID:  </b>{{clinique.id}}</li> -->
+                <li><b>Nom:        </b>{{clinique && clinique.nomEtPrenom}}</li>
+                <li><b>Username: </b>{{clinique && clinique.username}}</li>
+                <li><b>Email: </b>{{clinique && clinique.email}} </li>
+                <li><b>Adresse: </b>{{clinique && clinique.adresseClinique}} </li>
+                <li><b>Specialite: </b>{{specialiteClinique}} </li>
+                <li><b>Ville: </b>{{clinique && clinique.villeClinique}} </li>
+                <li><b>Date: </b>{{clinique && clinique.date }}</li>
+                <li><b>Contact: </b> {{clinique && clinique.contact}} </li>
+              </ul>
+              <div *ngIf="clinique && clinique.agrementClinique == null">
+                <div class="agr">
+                  <i class="bi bi-clipboard-x-fill"></i>
+                  <p><b>Agrement non renseigner</b></p>
+                </div>
+              </div>
+              <div class="d-grid gap-2" *ngIf="clinique && clinique.agrementClinique">
+                <button [cModalToggle]="modalXl.id" cButton class="tof-agrement">Afficher l'agrement de la clinique</button>
+              </div>
+          </div>
+      </div>
+     <!-- DETAIL-->
+
+
+
+     <!-- DESCRIPTION-->
+<div class="detail">
+  <div class="head">
+    <div class="icon-head">
+      <i class="bi bi-justify-right" style="font-size:20px;color:#0657B5;padding-right: 1rem;margin-top: 2rem;"></i>
+      <h3 style="margin-bottom: 15px; margin-top: 2rem;">Description</h3>
+    </div>
+  </div>
+</div>
+
+<div class="box-container" data-aos="zoom-in-up">
+    <div class="box">
+        <ul class="detail">
+          <li><b></b>{{clinique && clinique.descriptionClinique}} </li>
+        </ul>
+    </div>
+</div>
+     <!-- DESCRPITION-->
+
+
+     <!--MODAL AGREMENT-->
+     <c-modal #modalXl id="modalXl" size="xl">
+      <c-modal-header *ngIf="!clinique.statusClinique">
+        <h5 cModalTitle>Agrement</h5>
+          <button type="submit" class="valid" (click)="updateStatus(clinique.id)"
+                              *ngIf="showAdminBoard">
+            <i class="bi bi-check-circle-fill"></i>
+            Valider
+          </button>
+        <button [cModalToggle]="modalXl.id" cButtonClose></button>
+      </c-modal-header>
+      <c-modal-header *ngIf="clinique.statusClinique">
+        <h5 cModalTitle>Agrement</h5>
+          <button type="submit" class="non-valid" (click)="updateStatusNo(clinique.id)"
+                              *ngIf="showAdminBoard">
+                              <i class="bi bi-x-circle-fill"></i>
+            Réfuser
+          </button>
+        <button [cModalToggle]="modalXl.id" cButtonClose></button>
+      </c-modal-header>
+
+      <c-modal-body>
+        <img src="{{clinique && clinique.agrementClinique}}" alt="" class="im-modal">
+      </c-modal-body>
+    </c-modal>
+    <!--MODAL AGREMENT-->
+
+
+     <!--METHODE CHANGE STATUS-->   
+    <div class="event" *ngFor="let event of events; let id = index"> 
+                 <div class="event__duration">
+                    <div class="checkbox switcher">
+                       <label [for]="event.id">
+                          <input
+                             type="checkbox"
+                             [id]="event.id" 
+                             [(ngModel)]="event.statusClinique"
+                             value="event.statusClinique"
+                             (change)="updateStatus(event)"
+                             >
+                             <span><small></small></span>
+                             <span><b>{{(event.statusClinique)? 'Confirmer': 'Non confirmer'}}</b></span>
+                       </label>
+                       
+                    </div>
+                 </div>
+       </div>
+      <!--METHODE CHANGE STATUS-->   
+
+
+
+                                               
+  <h2 *ngIf="showCliniqueBoard">Liste de vos medecins</h2>
+  <h2 *ngIf="showAdminBoard">Liste des medecins</h2>
+
+
+  <button class="btn btn-outline-primary mb-2 me-2" (click)="open(content)" *ngIf="showCliniqueBoard">
+    Ajouter
+  </button>
+
+     <!--MODAL AJOUT MEDECIN-->
+     <ng-template #content let-c="close" let-d="dismiss">
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Ajouter medecin</h4>
+        <button
+          type="button"
+          class="btn-close"
+          aria-label="Close"
+          (click)="d('Cross click')"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form cForm class="row g-3">
+          <c-col [xs]="6">
+            <label cLabel for="nom">Nom *</label>
+            <input cFormControl id="nom" name="nom" type="text" [(ngModel)]="nom" placeholder="Nom" [value]="nom" required/>
+          </c-col>
+          <c-col [xs]="6">
+            <label cLabel for="prenom">Prenom *</label>
+            <input cFormControl id="prenom" name="prenom" type="text" [(ngModel)]="prenom" placeholder="Prenom" required/>
+          </c-col>
+  
+          <c-col [md]="12">
+            <label cLabel for="email">Email *</label>
+            <input cFormControl id="email" type="email" name="email" placeholder="Email" [(ngModel)]="email" required/>
+          </c-col>
+          <c-col [xs]="12">
+            <label cLabel for="sexe">Genre *</label>
+            <select aria-label="Default select example" cSelect id="sexe" name="sexe" [(ngModel)]="sexe">
+              <option selected disabled>Choisir genre</option>
+              <option value="Homme">Homme</option>
+              <option value="Femme">Femme</option>
+            </select>
+          </c-col>
+  
+          <c-col [xs]="12">
+            <label cLabel for="idSpec">Specialite *</label>
+            <select aria-label="Default select example" cSelect id="idSpec" name="idSpec" [(ngModel)]="idSpec">
+              <option selected disabled>--choisir specialite--</option>
+              <option *ngFor="let sp of specialites" value="{{sp.idSpecialite}}">{{sp.libelleSpecialite}}</option>
+            </select>
+          </c-col>
+  
+  
+          <c-col [xs]="12">
+            <label cLabel for="naissance">Date de naissance*</label>
+            <input cFormControl id="naissance" name="naissance" type="date" [(ngModel)]="naissance" required/>
+          </c-col>
+          <c-col [xs]="12">
+            <label cLabel for="contact">Contact *</label>
+            <input cFormControl id="contact" name="contact" placeholder="Phone professionnel" [(ngModel)]="contact" required/>
+          </c-col>
+          <div class="mb-3">
+            <label cLabel for="image">Image</label>
+            <input aria-label="file example" cFormControl id="image" name="image" type="file" (change)="recuperationImg($event)"/>
+            <c-form-feedback [valid]="false"
+              >Example invalid form file feedback</c-form-feedback
+            >
+          </div>
+  
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-dark"
+          (click)="c('Save click')"
+          (click)="onCreate()"
+        >
+          Creer
+        </button>
+      </div>
+    </ng-template>
+     <!--MODAL AJOUT MEDECIN-->
+
+
+
+
+  <!--TABLE DE CLINICS--> 
+  <c-input-group class="input-prepend"  style="margin-bottom: 10px;width: 35%;">
+    <span cInputGroupText>
+      <svg cIcon name="cilMagnifyingGlass"></svg>
+    </span>
+    <input name="search" [(ngModel)]="searchText" cFormControl placeholder="Rechercher lune clinique" type="text" />
+    <button cButton color="info">Rechercher</button>
+  </c-input-group>
+
+
+    <c-alert color="danger" *ngIf="isLoginFailed">{{errorMess}}</c-alert>
+    <div class="alert alert-danger" role="alert" *ngIf="alertImage">
+      <i class="fa fa-ban" aria-hidden="true" style="color: red;"></i>{{errorMess}}
+    </div>
+
+  <c-row>
+    <c-col xs>
+      <c-card class="mb-4">
+        <c-card-header>List des medecins</c-card-header>
+        <table
+          [hover]="true"
+          [responsive]="true"
+          [striped]="true"
+          align="middle"
+          cTable
+          class="mb-0 border"
+        >
+          <thead cTableColor="light">
+            <tr>
+              <th>ID</th>
+              <th class="text-center">Image</th>
+              <th>Nom & Prenom</th>
+              <th>Email</th>
+              <th>Specialite</th>
+              <th>Sexe</th>
+              <th>Naissance</th>
+              <th class="text-center">Contact</th>
+              <th  *ngIf="showCliniqueBoard">Action</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="listmedecins">
+            <div class="listvide" *ngIf="listmedecins.length==0">
+              <label>Aucun medecin creer</label>
+            </div>
+            <tr *ngFor="let medecin of listmedecins;
+          let id = index">
+        
+            <!-- <tr *ngFor="let medecin of listmedecins | filter : searchText
+            | paginate : { itemsPerPage: 3, currentPage: p };
+          let id = index" > -->
+
+              <td class="data-text">
+                  {{id +1}}
+              </td>
+              <td>
+                <div>
+                  <img *ngIf="medecin && medecin.imageMedecin" src="{{ medecin && medecin.imageMedecin }}" alt=""
+                  style="width:60px; height: 60px;border-radius: 50%;">
+                </div>
+                <div>
+                  <img *ngIf="medecin && medecin.imageMedecin==null" src="../../../assets/images/angular.jpg" alt=""
+                  style="width:60px; height: 60px;border-radius: 50%;">
+                </div>
+              </td>
+              <td class="data-text">
+                <div>{{medecin.prenomMedecin}} {{medecin.nomMedecin }}</div>
+              </td>
+              <td class="data-text">
+                <div>{{medecin.emailMedecin}}</div>
+              </td>    
+              <td class="data-text">
+                <div>{{specialiteClinique}}</div>
+              </td>
+              <td class="data-text">
+                <div>{{medecin.sexeMedecin}}</div>
+              </td>
+              <td class="data-text">
+                <div>{{medecin.naissanceMedecin}}</div>
+              </td>
+              <td class="data-text">
+                <div>{{medecin.contactMedecin}}</div>
+              </td>
+               <td  *ngIf="showCliniqueBoard">
+                  <div class="btn-group">
+                    <a class="btn btn-primary" 
+                    routerLink="/detailmedecin/{{medecin.idMedecin}}" 
+                    title="Voir details"
+                      ><i class="fa-solid fa-eye"></i
+                    ></a>
+                    <a
+                      class="btn btn-success"
+                      (click)="open(content)"
+                      title="Modifier" 
+                      ><i class="fa-solid fa-pen-to-square" (click)="Update()"></i
+                    ></a>
+                    <a class="btn btn-danger" title="Supprimer" (click)="deletePopUp(medecin.idMedecin)"
+                      ><i class="fa-solid fa-trash"></i
+                    ></a>
+                  </div>
+                </td>
+            </tr>
+          </tbody>
+        </table>
+
+ 
+
+      </c-card>
+    </c-col>
+  </c-row>
+  <!--TABLE DE CLINICS-->
+
+
+
+
+</div>
+                          </section>
+

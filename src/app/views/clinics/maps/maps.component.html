@@ -1,0 +1,35 @@
+<h2>Tout les clinics sur carte</h2>
+<c-input-group class="input-prepend" style="margin-bottom: 10px">
+  <span cInputGroupText>
+    <svg cIcon name="cilMagnifyingGlass"></svg>
+  </span>
+  <input
+    name="search"
+    [(ngModel)]="searchText"
+    cFormControl
+    placeholder="Rechercher par nom, par ville, par quatier"
+    type="text"
+  />
+  <button cButton color="info">Search</button>
+</c-input-group>
+
+<!--MAPS-->
+<div
+  class="map-container"
+  style="width: 59rem; height: 30rem"
+  leaflet
+  [leafletOptions]="options"
+  (leafletMapReady)="onMapReady($event)"
+  (leafletClick)="mapClicked($event)"
+></div>
+<!--MAPS-->
+
+<div *ngFor="let clinique of cliniques;let id = index">
+
+            <div style="margin-bottom: 2rem;margin-top: 5rem;">
+              {{clinique.longitudeClinique}} ===== {{clinique.latitudeClinique}}
+            </div>
+
+</div>
+
+

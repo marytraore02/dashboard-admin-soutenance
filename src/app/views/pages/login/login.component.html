@@ -1,0 +1,212 @@
+<div class="bg-light min-vh-100 d-flex flex-row">
+  <c-container>
+    <div class="img">
+      <i class="fa fa-heartbeat" style="font-size:100px;color:#0657B5;margin-bottom: 2rem;margin-top: 2rem;"></i>
+    </div>
+
+
+    <c-row class="justify-content-center">
+      <c-col md="8">
+        <c-card-group>
+          <c-card class="p-4">
+            <c-card-body>
+
+              <form cForm
+              *ngIf="!isLoggedIn"
+              name="form"
+              (ngSubmit)="f.form.valid && onSubmit()"
+              #f="ngForm"
+              novalidate
+              >
+                <h1>Connexion</h1>
+
+                <p class="text-medium-emphasis">Veuillez saisir vos identifiants</p>
+                <c-input-group class="mb-3">
+                  <span cInputGroupText>
+                    <svg cIcon name="cilUser"></svg>
+                  </span>
+
+                  <input 
+                  autoComplete="username" 
+                  cFormControl 
+                  placeholder="Username" 
+                  type="text"
+                  class="form-control"
+                  name="username"
+                  [(ngModel)]="form.username"
+                  required
+                  #username="ngModel"
+                  />
+                </c-input-group>
+                <div *ngIf="username.errors && f.submitted">
+                  <div *ngIf="username.errors['required']" class="message">Username is required!</div>
+                  <div *ngIf="username.errors['minlength']" class="message">
+                    Username must be at least 3 characters!
+                  </div>
+                  <div *ngIf="username.errors['maxlength']"  class="message">
+                    Username must be at most 20 characters!
+                  </div>
+                </div>
+
+
+                <c-input-group class="mb-4">
+                  <span cInputGroupText>
+                    <svg cIcon name="cilLockLocked"></svg>
+                  </span>
+
+                  <input
+                    autoComplete="current-password"
+                    cFormControl
+                    placeholder="Password"
+                    type="password"
+                    class="form-control"
+                    name="password"
+                    [(ngModel)]="form.password"
+                    required
+                    minlength="6"
+                    #password="ngModel"
+                    [type]="type ? 'password' : 'text'" 
+                  />
+                </c-input-group>
+                <div
+                    *ngIf="password.errors && f.submitted"
+                  >
+                    <div *ngIf="password.errors['required']" class="message">Password is required</div>
+                    <div *ngIf="password.errors['minlength']" class="message">
+                      Password must be at least 6 characters
+                    </div>
+                </div>
+
+
+
+                <c-row>
+                  <c-col xs="6">
+                    <button class="btn btn-primary btn-block">
+                      Se connecter
+                    </button>
+
+                    <div class="form-group">
+                      <div
+                        class="alert alert-danger"
+                        role="alert"
+                        *ngIf="f.submitted && isLoginFailed"
+                      >
+                        Erreur de connexion {{ errorMessage }}
+                      </div>
+                    </div>
+
+
+                  </c-col>
+                  <!-- <c-col class="text-right" xs="6">
+                    <button cButton class="px-0" color="link">
+                      Mot de passe oublié?
+                    </button>
+                  </c-col> -->
+                </c-row>
+              </form>
+
+
+              <!-- <div class="alert alert-success" *ngIf="isLoggedIn" (click)="navigate()">
+                Logged in as {{ roles }}.
+              </div> -->
+
+
+            </c-card-body>
+          </c-card>
+
+          <c-card [ngStyle]="{'width.%': 44}" class="text-white bg-primary py-5">
+            <c-card-body class="text-center">
+              <div>
+                <h2>Creer un compte</h2>
+                <p>
+                  Veuillez saisir vos informations d’authentification pour vous connecter à votre espace
+                </p>
+                <button [active]="true" cButton class="mt-3" color="primary" routerLink="/register">
+                  Créer
+                </button>
+              </div>
+            </c-card-body>
+          </c-card>
+          
+        </c-card-group>
+      </c-col>
+    </c-row>
+  </c-container>
+</div>
+
+<!-- 
+<div class="col-md-12">
+  <div class="card card-container">
+    <img
+      id="profile-img"
+      src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+      class="profile-img-card"
+    />
+    <form
+      *ngIf="!isLoggedIn"
+      name="form"
+      (ngSubmit)="f.form.valid && onSubmit()"
+      #f="ngForm"
+      novalidate
+    >
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input
+          type="text"
+          class="form-control"
+          name="username"
+          [(ngModel)]="form.username"
+          required
+          #username="ngModel"
+        />
+        <div
+          class="alert alert-danger"
+          role="alert"
+          *ngIf="username.errors && f.submitted"
+        >
+          Username is required!
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          name="password"
+          [(ngModel)]="form.password"
+          required
+          minlength="6"
+          #password="ngModel"
+        />
+        <div
+          class="alert alert-danger"
+          role="alert"
+          *ngIf="password.errors && f.submitted"
+        >
+          <div *ngIf="password.errors['required']">Password is required</div>
+          <div *ngIf="password.errors['minlength']">
+            Password must be at least 6 characters
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-primary btn-block">
+          Login
+        </button>
+      </div>
+      <div class="form-group">
+        <div
+          class="alert alert-danger"
+          role="alert"
+          *ngIf="f.submitted && isLoginFailed"
+        >
+          Login failed: {{ errorMessage }}
+        </div>
+      </div>
+    </form>
+
+    <div class="alert alert-success" *ngIf="isLoggedIn">
+      Logged in as {{ roles }}.
+    </div>
+  </div>
+</div> -->

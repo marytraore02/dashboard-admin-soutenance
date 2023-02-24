@@ -1,0 +1,184 @@
+<!-- <c-row>
+  <c-col xs="12"> </c-col>
+  <c-col xs="12" lg="12">
+    <c-card class="mb-4">
+      <c-card-header> Statistique generale </c-card-header>
+      <c-card-body>
+        
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row> -->
+
+
+<section *ngIf="showAdminBoard">
+  <!--Statistique generale-->
+<c-row>
+  <c-col xs="12"> </c-col>
+  <c-col xs="12" lg="12">
+    <c-card class="mb-4">
+      <c-card-header> Statistique générale </c-card-header>
+      <c-card-body>
+        <c-row>
+          <c-col lg="4" sm="6" xs="12">
+            <c-widget-stat-f
+              [title]="'total rendez-vous'"
+              class="mb-3"
+              color="info"
+              padding
+              value="{{totalRdv}}"
+            > 
+              <ng-template cTemplateId="widgetIconTemplate">
+                <svg cIcon name="cilBell" size="xl" width="24"></svg>
+              </ng-template>
+            </c-widget-stat-f>
+          </c-col>
+          <c-col lg="4" sm="6" xs="12">
+            <c-widget-stat-f
+              [title]="'Rendez-vous confirmer'"
+              class="mb-3"
+              color="primary"
+              padding
+              value="{{totalRdvValide}}"
+            >
+              <ng-template cTemplateId="widgetIconTemplate">
+                <svg cIcon name="cilBell" size="xl" width="24"></svg>
+              </ng-template>
+            </c-widget-stat-f>
+          </c-col>
+          <c-col lg="4" sm="6" xs="12">
+            <c-widget-stat-f
+              [title]="'Rendez-vous non confirmer'"
+              class="mb-3"
+              color="danger"
+              padding
+              value="{{totalRdvNonValide}}"
+            >
+              <ng-template cTemplateId="widgetIconTemplate">
+                <svg cIcon name="cilBell" size="xl" width="24"></svg>
+              </ng-template>
+            </c-widget-stat-f>
+          </c-col>
+        </c-row>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>
+<!--Statistique generale-->
+
+<div style="margin-bottom: 1rem;"></div>
+
+
+  <h2>La liste des rendez-vous</h2>
+  <!--TABLE DE CLINICS-->
+  <div style="display: flex;justify-content: space-between;">
+    <c-input-group class="input-prepend" style="margin-bottom: 10px;width: 50%;">
+      <span cInputGroupText>
+        <svg cIcon name="cilMagnifyingGlass"></svg>
+      </span>
+      <input name="search" [(ngModel)]="searchText" cFormControl placeholder="Rechercher" type="text" />
+      <button cButton color="info">Search</button>
+    </c-input-group>
+    
+    <select aria-label="Default select example" cSelect [(ngModel)]="textFiltre" name="textFiltre"  style="width: 30%;height: 40px;" (change)="filtreparsatatus()">
+      <option disabled>--Filtrer par status--</option>
+      <option value="total" selected>Total</option>
+      <option value="confirmer">Confirmer</option>
+      <option value="non confirmer">Non confirmer</option>
+    </select>  
+  </div>
+
+
+<!--TABLE-->
+  <c-row>
+    <c-col xs>
+      <div class="listvide" *ngIf="totalRdv==0">
+        <label>Il n'y existe pas encore de rendez-vous</label>
+        </div>
+      <c-card class="mb-4" *ngIf="totalRdv">
+        <c-card-header>Table</c-card-header>
+  
+        <table
+          [hover]="true"
+          [responsive]="true"
+          [striped]="true"
+          align="middle"
+          cTable
+          class="mb-0 border" 
+        >
+          <thead cTableColor="light">
+            <tr>
+              <th class="text-center">ID</th>
+              <th class="text-center">Date</th>
+              <th class="text-center">Medecin</th>
+              <th class="text-center">Patient</th>
+              <th class="text-center">Motif</th>
+              <th class="text-center">Horaire</th>
+              <th class="text-center">Clinique</th>
+              <th class="text-center">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let rdv of listrdv
+                  | filter : searchText
+                  | paginate : { itemsPerPage: 8, currentPage: p };
+                let id = index
+              "
+            >
+              <td class="text-center">
+                  {{ rdv.id }}
+              </td>
+              <td class="text-center">
+                {{ rdv.date }}
+            </td>
+              <td class="text-center">
+                  {{ rdv.medecins.nomMedecin }} {{ rdv.medecins.prenomMedecin}}
+              </td>
+              <td class="text-center">
+                {{ rdv.patients.nomEtPrenom }}
+              </td >
+              <td class="text-center">
+                {{ rdv.motif.libelleMotif }}
+              </td>
+              <td class="text-center">
+                {{rdv.calendrier.heureDebut | slice:0:5}} - {{rdv.calendrier.heureFin | slice:0:5}}              
+              </td>
+              <td class="text-center">
+                {{ rdv.medecins.clinique.nomEtPrenom }}
+              </td>
+              <td class="text-center">
+                <c-badge color="success"> 
+                  <span *ngIf="rdv.active" class="valid">Confirmer</span>
+                </c-badge>
+                <c-badge color="warning"> 
+                  <span *ngIf="!rdv.active" class="non-valid">Non confirmer</span>
+                </c-badge>
+                <!-- {{ rdv.active }} -->
+              </td>
+              <!-- <td>
+                <div class="btn-group">
+                  <a
+                    class="btn btn-success"
+                    title="Modifier"
+                    ><i class="fa-sharp fa-solid fa-check"></i> Accepter</a>
+                  <a class="btn btn-danger" title="Supprimer"
+                    ><i class="fa-regular fa-calendar-xmark"></i> Refuser</a>
+                </div>
+              </td> -->
+            </tr>
+          </tbody>
+        </table>
+      </c-card>
+    </c-col>
+  </c-row>
+  <!--TABLE-->
+
+  <!--PAGINATION DE TABLE-->
+  <div class="pagination">
+    <pagination-controls (pageChange)="p = $event" nextLabel="Suivants" previousLabel="Précédents"></pagination-controls>
+  </div>
+<!--PAGINATION DE TABLE-->
+  
+</section>

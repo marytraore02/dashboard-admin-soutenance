@@ -1,0 +1,20 @@
+.card1{
+    background-color:#3C4B64;
+    border-radius: 5px;
+    color: #ffffff;
+    padding: 10px;
+  box-shadow: rgb(64, 81, 128) 4px 4px 30px;
+}
+.content-card{
+    display: flex;
+    justify-content: space-around;
+}
+.card1 p{
+    font-size: 35px;
+    font-weight: 700;
+    opacity: 0.8;
+}
+.im{
+    width: 100px;
+    height: 80px;
+}

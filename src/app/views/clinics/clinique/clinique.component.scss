@@ -1,0 +1,243 @@
+/* ############# LES CSS PAGE ADMIN DEBUT ################## */
+
+.lesiconscrud{
+    display: flex;
+    justify-content: space-around;
+    //margin-bottom: 12px;
+}
+
+
+.imag img{
+    height:170px;
+    width: 206px;
+    object-fit: cover;
+    border-radius: .5rem;
+}   
+.imag h3{
+    position: absolute;
+    top:5px; left:5px;
+    font-size: 14px;
+    color:#fff;
+    background: rgba(0,0,0,.5);
+    border-radius: .5rem;
+    font-weight: lighter;
+    padding:.3rem 14px;
+}
+
+.imag h3 i{
+    color:var(--orange);
+}
+
+.listvide{
+    display: flex;
+    justify-content: center;
+    font-size: 20px;
+    margin: 20%;
+}
+/* ############# LES CSS PAGE ADMIN FIN ################## */
+
+
+
+
+
+
+/* ############# LES CSS PAGE CLINIQUE DEBUT ################## */
+.sec{
+    margin-bottom: 20px;
+}
+
+.detail{
+    padding: 10px;
+}
+.head{
+    display: flex;
+    justify-content: space-around;
+}
+.icon-head{
+    display: flex;
+}
+icon-head i{
+    padding-top: 1rem;
+}
+.content-detail{
+    display: flex;
+    justify-content: space-between;
+}
+.image-content {
+    width: 500px;
+    height: 500px;
+}
+.text-content ul{
+    padding: .5rem 0;
+    list-style: none;   
+}
+.text-content ul li{
+    font-size: 1rem;
+    color:var(--text-color-2);
+}
+.data-text{
+    font-size: 12px;
+}
+.box-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+    gap:1.5rem;
+    background-color: rgb(244, 245, 247);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3rem;
+}
+.det{
+    margin-top: 1rem;
+}
+.text-content {
+    background:var(--bg-color-1);
+    border-radius: .5rem;
+    box-shadow: var(--box-shadow);
+    padding:2rem;
+    text-align: center;
+}
+
+.box-container .box h3{
+    padding:1rem;
+    background: var(--bg-color-2);
+    border-radius: .5rem;
+    font-size: 2rem;
+    color:var(--text-color-1);
+}
+
+.box-container .box .price{
+    padding-top: 2rem;
+}
+
+.box-container .box .price span{
+    font-size: 2rem;
+    color:var(--text-color-2);
+}
+
+.box-container .box .price .amount{
+    font-size: 5rem;
+    color:var(--text-color-1);
+    font-weight: bolder;
+}
+
+.box-container .box ul{
+    padding: .5rem 0;
+    list-style: none;
+}
+
+.box-container .box ul li{
+    padding: 0.6rem 0;
+    font-size: 15px;
+    color:var(--text-color-2);
+}
+.carte{
+    height: 300px;
+    width: 100%;
+    padding-top: 20px;
+}
+.listvide{
+    display: flex;
+    justify-content: center;
+    font-size: 20px;
+    margin: 20%;
+}
+#im{
+    height: 30rem;
+}
+.tof-agrement{
+    color: #000;
+    background-color: aliceblue;
+}
+.im-modal{
+    height: 30rem;
+    width: 100%;
+}
+.agr{
+    display: flex;
+}
+.agr i{
+    padding-right: 10px;
+    font-size: 20px;
+    color: red;
+}
+.btn-action1{
+}
+.btn-action2{
+
+}
+.valid{
+    display: flex;
+    font-size: 16px;
+    font-weight: 700;
+    color: black;
+    border-color: antiquewhite;
+    border-radius: 5px;
+    background-color: antiquewhite;
+    padding: 10px 4rem 10px 4rem;
+    margin-right: 3rem;
+    margin-left: 18rem;
+}
+.valid i{
+    color: green;
+    padding-right: 10px;
+}
+.non-valid{
+    display: flex;
+    font-size: 16px;
+    font-weight: 700;
+    color: black;
+    border-color: antiquewhite;
+    border-radius: 5px;
+    background-color: antiquewhite;
+    padding: 10px 4rem 10px 4rem;
+    margin-right: 3rem;
+    margin-left: 18rem;
+}
+.non-valid i{
+    color: red;
+    padding-right: 10px;
+}
+.refuser{
+    display: flex;
+    font-size: px;
+    font-weight: 700;
+    color: black;
+    border-color: antiquewhite;
+    border-radius: 5px;
+    background-color: antiquewhite;
+    padding: 10px 4rem 10px 4rem;
+}
+.refuser i{
+    color: red;
+    padding-right: 10px;
+}
+.back{
+    font-size: 18px;
+    padding-top: 10px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    margin-right: 10rem;
+    text-align: center;
+    width: 20%;
+    color: #000;
+}
+.back:hover{
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.titre{
+    width: 80%;
+    align-items: center;
+}
+.hb{
+    display: flex;
+    justify-content: center;
+}
+/* ############# LES CSS PAGE CLINIQUE FIN ################## */

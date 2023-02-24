@@ -1,0 +1,200 @@
+<!--CARDS DE CLINICS-->
+<c-row>
+  <c-col xs="12"> </c-col>
+  <c-col xs="12" lg="12">
+    <c-card class="mb-4">
+      <c-card-header> Statistique generale </c-card-header>
+      <c-card-body>
+        <c-row>
+          <c-col lg="6" sm="6" xs="12">
+            <c-widget-stat-f
+              [title]="'Nombre de specialite'"
+              class="mb-3"
+              color="info"
+              padding
+              value="{{NbreSpecialite}}"
+            >
+              <ng-template cTemplateId="widgetIconTemplate">
+                <svg cIcon name="cilUser" size="xl" width="24"></svg>
+              </ng-template>
+            </c-widget-stat-f>
+          </c-col>
+        </c-row>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>
+
+<!--CARDS DE CLINICS-->
+
+<h2>Liste des spécialités</h2>
+<!--MODAL CLINICS-->
+<button class="btn btn-outline-primary mb-2 me-2" (click)="open(content)">
+  Ajouter
+</button>
+
+<!--MODAL CREATION-->
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Nouvel spécialité</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <form cForm class="row g-3">
+      <c-col [xs]="12">
+        <label cLabel for="libelle">Libelle *</label>
+        <input
+          cFormControl
+          id="libelle"
+          name="libelle"
+          placeholder="Libelle"
+          [(ngModel)]="libelle"
+          required
+        />
+      </c-col>
+
+      <div cFormFloating>
+        <textarea
+          [ngStyle]="{ 'height.px': 100 }"
+          cFormControl
+          id="description"
+          name="description"
+          [(ngModel)]="description"
+          required
+        >
+        </textarea>
+        <label cLabel for="floatingTextarea2">Description</label>
+      </div>
+
+      <div class="mb-3">
+        <input
+          aria-label="file example"
+          cFormControl
+          id="image"
+          name="image"
+          type="file"
+          (change)="recuperationImg($event)"
+          required
+        />
+        <c-form-feedback [valid]="false"
+          >Example invalid form file feedback</c-form-feedback
+        >
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline-dark"
+      (click)="c('Save click')"
+      (click)="Create()"
+    >
+      Creer
+    </button>
+  </div>
+</ng-template>
+<!--MODAL CREATION-->
+
+
+
+<c-input-group class="input-prepend"  style="margin-bottom: 10px;width: 45%;">
+  <span cInputGroupText>
+    <svg cIcon name="cilMagnifyingGlass"></svg>
+  </span>
+  <input
+    name="search"
+    [(ngModel)]="searchText"
+    cFormControl
+    placeholder="Rechercher"
+    type="text"
+  />
+  <button cButton color="info">Search</button>
+</c-input-group>
+
+<div class="listvide" *ngIf="NbreSpecialite == 0">
+  <label>Aucun specialite creer</label>
+</div>
+
+
+<!--TABLE DE SPECAILITE-->
+<c-row>
+  <c-col xs>
+    <c-card class="mb-4">
+      <c-card-header>Specialites</c-card-header>
+
+      <table
+        [hover]="true"
+        [responsive]="true"
+        [striped]="true"
+        align="middle"
+        cTable
+        class="mb-0 border"
+      >
+        <thead cTableColor="light">
+          <tr>
+            <th class="text-center">ID</th>
+            <th class="text-center">Image</th>
+            <th class="text-center">Libelle</th>
+            <th class="text-center">Description</th>
+            <th class="text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let sp of specialites | filter : searchText
+		  | paginate : { itemsPerPage: 4, currentPage: p };
+		let id = index">
+        <td class="text-center">
+          {{ sp.idSpecialite}}
+        </td>
+            <td class="text-center">
+				<div>
+					<img *ngIf="sp.imageSpecialite" src="{{ sp.imageSpecialite }}" alt=""
+					style="width: 100px; height: 90px;">
+				</div>
+				<div>
+					<img *ngIf="sp.imageSpecialite==null" src="../../../assets/images/angular.jpg" alt=""
+					style="width: 100px; height: 90px;">
+				</div>
+            </td>
+            <td class="text-center">
+              <div>{{ sp.libelleSpecialite }}</div>
+              <div class="small text-medium-emphasis text-nowrap"></div>
+            </td>
+            <td class="text-center">
+              {{ sp.descriptionSpecialite | slice:0:20}}...
+            </td>
+            <td class="text-center">
+              <div class="btn-group">
+                <a
+                  class="btn btn-success"
+                  routerLink="/modifier-specialites/{{sp.idSpecialite}}" 
+                  title="Modifier"
+                  ><i class="fa-solid fa-pen-to-square"></i
+                ></a>
+                <a class="btn btn-danger" title="Supprimer"  (click)="deletePopUp(sp.idSpecialite)"
+                  ><i class="fa-solid fa-trash"></i
+                ></a>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </c-card>
+  </c-col>
+</c-row>
+<!--TABLE DE SPECIALITE-->
+
+
+
+
+
+  <!--PAGINATION DE TABLE-->
+  <div class="pagination">
+    <pagination-controls (pageChange)="p = $event" nextLabel="Suivants" previousLabel="Précédents"></pagination-controls>
+  </div>
+<!--PAGINATION DE TABLE-->

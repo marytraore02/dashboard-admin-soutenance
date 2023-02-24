@@ -1,0 +1,114 @@
+<div class="mobile-wrapper">
+
+    <!--======= Header =======-->
+
+    <section >
+        <div class="detail" class="today-box" id="today-box">
+            <div class="head">
+              <div class="icon-head">
+                <p class="back" (click)="back()" ><i class="bi bi-arrow-left-square-fill"></i> </p>
+                <i class="bi bi-person-bounding-box" style="font-size:30px;color:#000;padding-right: 1rem;margin-top: 2rem;"></i>
+                <!-- <i class="bi bi-map-fill" style="font-size:20px;color:#0657B5;padding-right: 1rem;margin-top: 2rem;"></i> -->
+                <h3 style="margin-bottom: 15px; margin-top: 2rem;color: #000;">Photo</h3>
+              </div>
+              <div class="text-detail">
+                <h3 style="margin-top: 2rem;color: #000;"> Details </h3>
+              </div>
+            </div>
+          </div>
+                  
+
+        <!--CARDS DE CLINICS-->
+          <div class="box-container" data-aos="zoom-in-up" >
+            <div class="box">
+                <img *ngIf="detailmedecin && detailmedecin.imageMedecin" src="{{detailmedecin.imageMedecin}}" alt="" class="carte">
+                <img *ngIf="detailmedecin && detailmedecin.imageMedecin==null" src="../../../../assets/images/angular.jpg" alt="" class="carte">
+
+              <!-- <img src="../../../../assets/images/maplocate.png" alt="" class="carte"> -->
+            </div>
+              <div class="box">
+                  <ul class="detail">
+                      <!-- <li><b>ID:  </b>{{clinique.id}}</li> -->
+                    <li><b>Nom:    </b>{{ detailmedecin && detailmedecin.nomMedecin}}</li>
+                    <li><b>Prenom: </b>{{detailmedecin && detailmedecin.prenomMedecin}}</li>
+                    <li><b>Specialite: </b>{{specialiteMedecin}}</li>
+                    <li><b>Email: </b>{{detailmedecin && detailmedecin.emailMedecin}}</li>
+                    <li><b>Naissance: </b>{{detailmedecin && detailmedecin.naissanceMedecin}} </li>
+                    <li><b>Genre: </b>{{detailmedecin && detailmedecin.sexeMedecin}} </li>
+                    <li><b>Contact: </b>{{detailmedecin && detailmedecin.contactMedecin}} </li>
+                  </ul>
+              </div>
+          </div>
+    
+    </section>
+ 
+    <section class="today-box" id="today-box">
+       <h3 class="date-title" style="margin-left:11rem;"> 
+       <span style="color:#000">{{this.calendarRequest}}</span> 
+          <!-- {{ this.calendar.date }} -->
+           <a (click)="previousDate(this.calendarRequest,detailmedecin.idMedecin)" style="cursor: pointer; color: #000;">
+                 <i class="fas fa-chevron-circle-left"></i>
+           </a>
+           &nbsp;
+           <a (click)="nextDay(this.calendarRequest,detailmedecin.idMedecin)" style="cursor: pointer;color: #000;">
+                 <i class="fas fa-chevron-circle-right"></i>
+           </a>
+ 
+       </h3>
+       <span class="breadcrumb" style="margin-left:11rem;">Mr. {{detailmedecin && detailmedecin.prenomMedecin}} à [&nbsp;<b> {{ calendar.size }} </b> &nbsp;] rendez-vous.</span>
+
+    </section>
+
+    <section class="upcoming-events" *ngIf="this.calendarRequest">
+       <div class="container">
+          <h3 style="font-size:25px">
+             Liste des rendez-vous quotidien
+          </h3>
+
+          <!-- <c-alert color="danger" *ngIf="dateExistFailed">{{errorMess}}</c-alert> -->
+              <div class="listvide" *ngIf="events && events.length == 0">
+                <label>Aucun rendez-vous n'existe pour ce medecin</label>
+              </div>
+
+          <div class="events-wrapper" *ngIf="events && events">
+            <!-- <div class="listvide" *ngIf="events && events.length == 0">
+                <label>Aucun rendez-vous n'existe pour ce medecin</label>
+              </div> -->
+             <div class="event" *ngFor="let event of events; let id = index">                                 
+                    <h4 class="event__point">{{event.heureDebut}} - {{event.heureFin}}</h4>
+                    <!-- (click)="deleteEvent(event)"  -->
+                    <a (click)="deletePopUp(event)">
+                          <span><i class="far fa-trash-alt"></i></span>
+                    </a>
+                    
+                       <div class="event__duration">
+                          <div class="checkbox switcher">
+                             <label [for]="event.rdvId">
+                                <input
+                                   type="checkbox"
+                                   [id]="event.rdvId" 
+                                   [(ngModel)]="event.status"
+                                   value="event.status"
+                                   (change)="updateEventStatus(event)"
+                                   >
+                                   <span><small></small></span>
+                                   <span><b>{{(event.status)? 'Confirmer': 'Non confirmer'}}</b></span>
+                             </label>
+                             
+                          </div>
+                       </div>
+                    
+                    <p class="event__description">
+                      <strong> Rendez-vous soliciter par:</strong> {{event.prenomPatient}}
+                    </p>
+ 
+             </div>
+             
+          </div>
+ 
+       </div>
+    </section>
+
+
+ </div>
+ 

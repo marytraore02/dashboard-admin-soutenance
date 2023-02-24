@@ -1,0 +1,80 @@
+ 
+    <div class="content">
+
+<h2 class="titre">Laissez-nous un message</h2>   
+<!-- <div class="col-md-6 col-md-offset-3">
+    <img src="../../assets/images/feedback.gif" class="img-fluid rounded mx-auto d-block" alt="Responsive image" width="80%">
+  </div>  -->
+
+  <!-- <c-alert color="danger" *ngIf="isSignUpFailed">{{errorMess}}</c-alert> -->
+
+  <div class="alert alert-danger" role="alert" *ngIf="isSignUpFailed">
+    <i class="fa fa-ban" aria-hidden="true" style="color: red;"></i>{{errorMess}}
+  </div>
+
+<div class="container">    
+  <form 
+    name="form" 
+    #f="ngForm" 
+    (ngSubmit)="f.form.valid && sendFeedback()" 
+    novalidate 
+    class="feedback-form"
+  >    
+    <div class="row">    
+      <div class="col-25">    
+        <label for="name">Nom & Prenom</label>    
+      </div>    
+      <div class="col-75">    
+        <input 
+        type="text" 
+        id="name" 
+        name="name" 
+        [(ngModel)]="feedbackData.name"
+        #name="ngModel" 
+        placeholder="Votre nom..">    
+      </div>    
+    </div> 
+    
+    <div class="row">    
+        <div class="col-25">    
+          <label for="email">Email</label>    
+        </div>    
+        <div class="col-75">    
+          <input 
+            type="email" 
+            id="email" 
+            name="email" 
+            placeholder="Votre email.."
+            [(ngModel)]="feedbackData.email"
+            #email="ngModel"
+            >    
+        </div>    
+      </div>   
+
+    <div class="row">    
+      <div class="col-25">    
+        <label for="feedback">Message</label>    
+      </div>    
+      <div class="col-75">    
+        <textarea 
+            id="contenue"
+            name="contenue"
+            placeholder="Message..." 
+            [(ngModel)]="feedbackData.contenue"
+            #contenue="ngModel"
+            style="height:200px" 
+            minlength="10"
+            maxlength="500"
+            >
+        </textarea>    
+      </div>    
+    </div> 
+
+    <div class="row">    
+      <input type="submit" value="Envoyer">    
+    </div>
+
+  </form>    
+</div>  
+
+    </div>  

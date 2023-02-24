@@ -1,0 +1,67 @@
+
+    <div class="hb" style="margin-left: 2%">
+        <p class="back" (click)="retour()" ><i class="bi bi-arrow-left-square-fill" style="font-size: 30px;"></i> </p>
+        <h1 class="titre"><span style="font-size:30px;width: 100%;">Modifier spécialité</span> </h1>
+      </div>
+    <!-- <h4 class="modal-title" id="modal-basic-title">Modifier spécialité</h4> -->
+
+    <c-alert color="danger" *ngIf="updateFailed">{{errorMess}}</c-alert>
+
+
+  <div class="modal-body" style="align-items: center;">
+    <form cForm class="row g-3">
+     <div style="display: flexbox;margin-left: 20%;margin-right: 20%;">
+        <c-col [xs]="6" style="margin-bottom: 1rem;">
+            <label cLabel for="libelleMod">Libelle *</label>
+            <input
+              cFormControl
+              name="libelleMod"
+              [(ngModel)]="libelleMod"
+              [value]="libelleMod"
+              
+            />
+          </c-col>
+    
+          <c-col [xs]="6" style="margin-bottom: 1rem;">
+          <div cFormFloating>
+            <textarea
+              [ngStyle]="{ 'height.px': 100 }"
+              cFormControl
+              name="descriptionMod"
+              [(ngModel)]="descriptionMod"
+              [value]="descriptionMod"
+              
+            >
+            </textarea>
+            <label cLabel for="descriptionMod">Description</label>
+          </div>
+        </c-col>
+    
+        <c-col [xs]="6">
+          <div class="mb-3">
+            <input
+              aria-label="file example"
+              cFormControl
+              name="image"
+              type="file"
+              (change)="recuperationImg($event)"
+              
+            />
+            <c-form-feedback [valid]="false"
+              >Example invalid form file feedback</c-form-feedback
+            >
+          </div>
+          </c-col>
+     </div>
+      
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline-dark"
+      (click)="UpdateSpecialite()"
+    >
+      Mettre à jour
+    </button>
+  </div>

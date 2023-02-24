@@ -1,0 +1,128 @@
+<app-widgets-dropdown></app-widgets-dropdown>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Hi there!</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <p>Hello, World!</p>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline-dark"
+      (click)="c('Save click')"
+    >
+      Save
+    </button>
+  </div>
+</ng-template>
+
+<!--Acitiviter-->
+<c-row>
+  <c-col xs="12"> </c-col>
+  <c-col xs="12" lg="12">
+    <c-card class="mb-4">
+      <c-card-header> Activités </c-card-header>
+      <c-card-body>
+        <c-chart type="bar" [data]="chartBarData"></c-chart>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>
+<!--Acitiviter-->
+
+
+<!-- <c-row>
+  <c-col xs>
+    <c-card class="mb-4">
+      <c-card-header>Users</c-card-header>
+      <table
+        [hover]="true"
+        [responsive]="true"
+        [striped]="true"
+        align="middle"
+        cTable
+        class="mb-0 border"
+      >
+        <thead cTableColor="light">
+          <tr>
+            <th class="text-center">
+              <svg cIcon name="cilPeople"></svg>
+            </th>
+            <th>User</th>
+            <th class="text-center">Country</th>
+            <th>Usage</th>
+            <th>Activity</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users; index as i">
+            <td class="text-center">
+              <c-avatar
+                size="md"
+                src="{{ user.avatar }}"
+                status="{{ user.status }}"
+              ></c-avatar>
+            </td>
+            <td>
+              <div>{{ user.name }}</div>
+              <div class="small text-medium-emphasis text-nowrap">
+                <span>
+                  {{ user.state }} | Registered: {{ user.registered }}
+                </span>
+              </div>
+            </td>
+            <td class="text-center">
+              <svg
+                cIcon
+                id="{{ user.country + user.name }}"
+                name="cif{{ user.country }}"
+                size="xl"
+                title="{{ user.country }}"
+              ></svg>
+            </td>
+            <td>
+              <div class="d-flex justify-content-between">
+                <div class="float-start">
+                  <strong>{{ user.usage }}%</strong>
+                </div>
+                <div class="float-end ms-1 text-nowrap">
+                  <small class="text-medium-emphasis">
+                    {{ user.period }}
+                  </small>
+                </div>
+              </div>
+              <c-progress thin>
+                <c-progress-bar
+                  [value]="user.usage"
+                  color="{{ user.color }}"
+                ></c-progress-bar>
+              </c-progress>
+            </td>
+            <td>
+              <div class="small text-medium-emphasis">Last login</div>
+              <div class="fw-semibold text-nowrap">{{ user.activity }}</div>
+            </td>
+            <td>
+              <div class="btn-group">
+                <a class="btn btn-primary"><i class="fa-solid fa-eye"></i></a>
+                <a class="btn btn-success"
+                  ><i class="fa-solid fa-pen-to-square"></i
+                ></a>
+                <a class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </c-card>
+  </c-col>
+</c-row> -->

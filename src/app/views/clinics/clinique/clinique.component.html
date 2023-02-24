@@ -1,0 +1,674 @@
+  
+<!--DEBUT ADMIN PAGE-->
+
+<section *ngIf="showAdminBoard">
+
+
+  <c-row>
+    <c-col xs="12"> </c-col>
+    <c-col xs="12" lg="12">
+      <c-card class="mb-4">
+        <c-card-header> Statistiques </c-card-header>
+        <c-card-body>
+          <c-row>
+            <c-col lg="6" sm="6" xs="12">
+              <c-widget-stat-f
+                [title]="'Nombre de clinique'"
+                class="mb-3"
+                color="primary"
+                padding
+                value="{{totalClinique}}"
+              >
+                <ng-template cTemplateId="widgetIconTemplate">
+                  <svg cIcon name="cilBell" size="xl" width="24"></svg>
+                </ng-template>
+              </c-widget-stat-f>
+            </c-col>
+          </c-row>
+        </c-card-body>
+      </c-card>
+    </c-col>
+  </c-row>
+    
+    <!-- <h2>Liste total des cliniques</h2> -->
+
+  <!--MODAL CLINICS-->
+  <button class="btn btn-outline-primary mb-2 me-2" (click)="open(content)">
+    Ajouter
+  </button>
+  <ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Nouvelle clinique</h4>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        (click)="d('Cross click')"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <form cForm class="row g-3">
+        <c-col [xs]="12">
+          <label cLabel for="nom">Nom *</label>
+          <input cFormControl id="nom" name="nom" type="text" [(ngModel)]="nom" placeholder="Nom" required/>
+        </c-col>
+        <c-col [xs]="12">
+          <label cLabel for="username">Username *</label>
+          <input cFormControl id="username" name="username" type="text" [(ngModel)]="username" placeholder="Username" required/>
+        </c-col>
+
+        <c-col [md]="6">
+          <label cLabel for="email">Email *</label>
+          <input cFormControl id="email" name="email" type="email" [(ngModel)]="email" placeholder="Email" required/>
+        </c-col>
+        <c-col [md]="6">
+          <label cLabel for="password">Password *</label>
+          <input cFormControl id="password" name="password" type="password" [(ngModel)]="password" placeholder="Mot de passe" required/>
+        </c-col>
+        <c-col [xs]="12">
+          <label cLabel for="ville">Ville *</label>
+          <input cFormControl id="ville" name="ville" type="text" [(ngModel)]="ville" placeholder="Ville" required/>
+        </c-col>
+        <c-col [xs]="12">
+          <label cLabel for="adresse">Adresse *</label>
+          <input cFormControl id="adresse" name="adresse" type="text" [(ngModel)]="adresse" placeholder="Commune, Quartier, Rue" required/>
+        </c-col>
+
+        <c-col [xs]="12">
+          <label cLabel for="idSpec">Specialite *</label>
+          <select aria-label="Default select example" cSelect id="idSpec" name="idSpec" [(ngModel)]="idSpec">
+            <option selected disabled>--choisir specialite--</option>
+            <option *ngFor="let sp of specialites" value="{{sp.idSpecialite}}">{{sp.libelleSpecialite}}</option>
+          </select>
+        </c-col>
+        
+        <c-col [xs]="12">
+          <label cLabel for="contact">Contact *</label>
+          <input cFormControl id="contact" name="contact" type="text" placeholder="Contact profesionnelle" [(ngModel)]="contact" required/>
+        </c-col>
+        <c-col [xs]="12">
+          <label cLabel for="date">Date de creation</label>
+          <input cFormControl id="date" name="date" type="date" [(ngModel)]="date" required/>
+        </c-col>
+        <div class="mb-3">
+          <label cLabel for="img">Image</label>
+          <input aria-label="file example" cFormControl id="img" name="img" type="file" (change)="recuperationImg($event)" required/>
+          <c-form-feedback [valid]="false"
+            >Example invalid form file feedback</c-form-feedback
+          >
+        </div>
+        <div class="mb-3">
+          <label cLabel for="agrement">Agrement *</label>
+          <input aria-label="file example" cFormControl id="agrement" name="agrement" type="file" (change)="recuperationImage($event)" required/>
+          <c-form-feedback [valid]="false"
+            >Example invalid form file feedback</c-form-feedback
+          >
+        </div>
+        <!-- <c-col [xs]="12">
+          <label cLabel for="longitude">Longitude*</label>
+          <input cFormControl id="longitude" name="longitude" [(ngModel)]="longitude" placeholder="longitude" required/>
+        </c-col>
+        <c-col [xs]="12">
+          <label cLabel for="latitude">Latitude*</label>
+          <input cFormControl id="latitude" name="latitude" [(ngModel)]="latitude" placeholder="latitude" required/>
+        </c-col> -->
+        <div cFormFloating>
+          <textarea
+            [ngStyle]="{ 'height.px': 100 }"
+            cFormControl
+            id="description"
+            name="description"
+            placeholder="Description"
+            [(ngModel)]="description"
+            required
+          >
+          </textarea>
+          <label cLabel for="description">Description</label>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-outline-dark"
+        (click)="c('Save click')"
+        (click)="onCreate()"
+      >
+        Creer
+      </button>
+    </div>
+  </ng-template>
+  <!--MODAL CLINICS-->
+
+  <!--Search-->
+  <c-input-group class="input-prepend" style="margin-bottom: 10px;width: 45%;">
+    <span cInputGroupText>
+      <svg cIcon name="cilMagnifyingGlass"></svg>
+    </span>
+    <input name="search" [(ngModel)]="searchText" cFormControl placeholder="Rechercher lune clinique" type="text" />
+    <button cButton color="info">Rechercher</button>
+  </c-input-group>
+ <!--Search-->
+
+  <div class="listvide" *ngIf="cliniques.length==0">
+    <label>Aucune clinique dans la base de donnee</label>
+    </div>
+
+  <!--MODAL MODIF CLINICS-->
+  <ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Modification</h4>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        (click)="d('Cross click')"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <form cForm class="row g-3">
+        <c-col [xs]="12">
+          <label cLabel for="nom">Nom *</label>
+          <input cFormControl id="nom" name="nom" type="text" [(ngModel)]="nom" placeholder="Nom" required/>
+        </c-col>
+        <c-col [xs]="12">
+          <label cLabel for="username">Username *</label>
+          <input cFormControl id="username" name="username" type="text" [(ngModel)]="username" placeholder="Username" required/>
+        </c-col>
+
+        <c-col [md]="6">
+          <label cLabel for="email">Email *</label>
+          <input cFormControl id="email" name="email" type="email" [(ngModel)]="email" placeholder="Email" required/>
+        </c-col>
+        <c-col [md]="6">
+          <label cLabel for="password">Password *</label>
+          <input cFormControl id="password" name="password" type="password" [(ngModel)]="password" placeholder="Mot de passe" required/>
+        </c-col>
+        <c-col [xs]="12">
+          <label cLabel for="ville">Ville *</label>
+          <input cFormControl id="ville" name="ville" type="text" [(ngModel)]="ville" placeholder="Ville" required/>
+        </c-col>
+        <c-col [xs]="12">
+          <label cLabel for="adresse">Adresse *</label>
+          <input cFormControl id="adresse" name="adresse" type="text" [(ngModel)]="adresse" placeholder="Commune, Quartier, Rue" required/>
+        </c-col>
+        <c-col [xs]="12">
+          <label cLabel for="contact">Contact *</label>
+          <input cFormControl id="contact" name="contact" type="text" placeholder="Contact profesionnelle" [(ngModel)]="contact" required/>
+        </c-col>
+        <c-col [xs]="12">
+          <label cLabel for="date">Date de creation</label>
+          <input cFormControl id="date" name="date" type="date" [(ngModel)]="date" required/>
+        </c-col>
+        <div class="mb-3">
+          <label cLabel for="img">Image</label>
+          <input aria-label="file example" cFormControl id="img" name="img" type="file" (change)="recuperationImg($event)" required/>
+          <c-form-feedback [valid]="false"
+            >Example invalid form file feedback</c-form-feedback
+          >
+        </div>
+        <div class="mb-3">
+          <label cLabel for="agrement">Agrement *</label>
+          <input aria-label="file example" cFormControl id="agrement" name="agrement" type="file" (change)="recuperationImage($event)" required/>
+          <c-form-feedback [valid]="false"
+            >Example invalid form file feedback</c-form-feedback
+          >
+        </div>
+        <c-col [xs]="12">
+          <label cLabel for="longitude">Longitude*</label>
+          <input cFormControl id="longitude" name="longitude" [(ngModel)]="longitude" placeholder="longitude" required/>
+        </c-col>
+        <c-col [xs]="12">
+          <label cLabel for="latitude">Latitude*</label>
+          <input cFormControl id="latitude" name="latitude" [(ngModel)]="latitude" placeholder="latitude" required/>
+        </c-col>
+        <div cFormFloating>
+          <textarea
+            [ngStyle]="{ 'height.px': 100 }"
+            cFormControl
+            id="description"
+            name="description"
+            placeholder="Description"
+            [(ngModel)]="description"
+            required
+          >
+          </textarea>
+          <label cLabel for="description">Description</label>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-outline-dark"
+        (click)="c('Save click')"
+        (click)="onCreate()"
+      >
+        Creer
+      </button>
+    </div>
+  </ng-template>
+  <!--MODAL MODIF CLINICS-->
+
+  <!-- <c-col xs="12">
+    <app-docs-callout href="components/card" name="Card"></app-docs-callout>
+  </c-col> -->
+
+  <c-alert color="danger" *ngIf="isLoginFailed">{{errorMess}}</c-alert>
+
+  <c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>Liste total cliniques</strong>
+      </c-card-header>
+      <c-card-body>
+                  <c-row>
+                    <c-col sm="3"  *ngFor="let clinique of cliniques 
+            | filter : searchText
+                          | paginate : { itemsPerPage: 6, currentPage: p };
+                        let id = index">
+          <c-card style="width: 13rem;display: flex;">
+            <div class="imag">
+                <img *ngIf="clinique.image" src="{{clinique.image}}"/>
+                <img *ngIf="clinique.image==null" src="../../../../assets/images/angular.jpg" />
+                <h3> <i class="fas fa-map-marker-alt"></i> {{clinique.nomEtPrenom}} </h3>
+            
+            </div>
+            <c-card-body>
+              <h4 cCardTitle>{{clinique.nomEtPrenom}} </h4>
+              <p cCardText style="font-size: 12px;">
+                {{clinique.descriptionClinique| slice:0:50}} ...           
+              </p>
+              <div style="margin-bottom: 12px;">
+                <c-badge color="success"> 
+                  <span *ngIf="clinique.statusClinique">Approuvé</span>
+                </c-badge>
+                <c-badge color="warning"> 
+                  <span *ngIf="!clinique.statusClinique">Non approuvé</span>
+                </c-badge>
+
+              </div>
+              <div class="lesiconscrud">
+                <a href="#" id="btn-1" class="btn btn-outline-primary" routerLink="/detailclinique/{{clinique.id}}" title="Details"><i class="far fa-eye"></i></a>
+                <!-- <a id="btn-2" class="btn btn-outline-warning"  title="Modifier" (click)="open(content)"><i class="far fa-edit"></i></a> -->
+                <a id="btn-3" class="btn btn-outline-danger" (click)="deletePopUp(clinique.id)" title="Supprimer la region"><i class="far fa-trash-alt"></i></a>
+            </div>
+              <!-- <button cButton color="primary">Go somewhere</button> -->
+            </c-card-body>
+          </c-card>
+        </c-col>
+        </c-row>
+      </c-card-body>
+    </c-card>
+      <!--PAGINATION DE TABLE-->
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
+      <!--PAGINATION DE TABLE-->
+  </c-col>
+
+</section>
+  
+<!--FIN ADMIN PAGE-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--DEBUT DETAILS DE LA CLINIQUE-->
+
+<section class="sec" *ngIf="showCliniqueBoard">
+  <div class="hb" >
+    <h1 class="titre">Details <span style="font-size:30px;">{{clinique && clinique.nomEtPrenom}}</span> </h1>
+  </div>
+            
+
+  <div id="carouselMaterialStyle" class="carousel slide carousel-fade" data-mdb-ride="carousel">
+  
+    <div class="fade-in">
+      <c-row ngPreserveWhitespaces>
+        <c-col xs="12">
+         
+          <app-docs-callout href="components/carousel" name="Carousel">
+
+               <c-row>
+                <c-col lg="6" sm="6" xs="12">
+                  <c-widget-stat-f
+                    [title]="'Nombre medecin'"
+                    class="mb-3"
+                    color="primary"
+                    padding
+                    value="{{countListMedecin}}"
+                  >
+                    <ng-template cTemplateId="widgetIconTemplate">
+                      <svg cIcon name="cilSettings" size="xl" width="24"></svg>
+                    </ng-template>
+                  </c-widget-stat-f>
+                </c-col>
+              </c-row>
+
+          </app-docs-callout>
+        </c-col>
+      </c-row>
+      <c-col xs="12">
+        <c-card class="mb-4">
+          <c-card-header>
+            <strong>Image</strong>
+          </c-card-header>
+          <c-card-body>
+  
+              <div>
+                <div class="carousel-item active" *ngIf="clinique && clinique.image">
+                  <img *ngIf="clinique && clinique.image" src="{{clinique && clinique.image}}" class="d-block w-100" id="im"
+                    alt="Sunset Over the City" />
+                    <img  *ngIf="clinique && clinique.image == null" src="../../../../assets/images/angular.jpg"  class="d-block w-100" id="im">
+                  <div class="carousel-caption d-none d-md-block">
+                    <h5 style="color:rgb(32, 32, 32);font-size: 35px;"><em>{{clinique && clinique.nomEtPrenom}}</em> </h5>
+                  </div>
+                </div>
+              </div>
+  
+            
+          </c-card-body>
+  
+  
+        </c-card>
+      </c-col>
+    </div>
+  
+  
+  
+  <div style="margin-top:2rem"></div>
+  
+  
+  
+  <div class="detail">
+    <div class="head">
+  
+      <div class="icon-head">
+        <i class="bi bi-map-fill" style="font-size:20px;color:#0657B5;padding-right: 1rem;margin-top: 2rem;"></i>
+        <h3 style="margin-bottom: 15px; margin-top: 2rem;">Localisation</h3>
+      </div>
+      <div class="text-detail">
+        <h3 style="margin-top: 2rem;"> Details </h3>
+      </div>
+      
+  
+    </div>
+  
+  </div>
+  
+  
+  
+  
+        <div class="box-container" data-aos="zoom-in-up">
+  
+          <div class="box">
+            <img *ngIf="listmedecins && listmedecins.image" src="{{listmedecins && listmedecins.image}}" alt="" class="carte">
+            <img *ngIf="listmedecins && listmedecins.image==null" src="../../../../assets/images/maplocate.png" alt="" class="carte">
+  
+          </div>
+  
+            <div class="box">
+                <ul class="detail">
+                  <li><b>Nom:        </b>{{clinique && clinique.nomEtPrenom}}</li>
+                  <li><b>Username: </b>{{clinique && clinique.username}}</li>
+                  <li><b>Email: </b>{{clinique && clinique.email}} </li>
+                  <li><b>Adresse: </b>{{clinique && clinique.adresseClinique}} </li>
+                  <li><b>Specialite: </b>{{specialiteClinique}} </li>
+                  <li><b>Ville: </b>{{clinique && clinique.villeClinique}} </li>
+                  <li><b>Date: </b>{{clinique && clinique.date }}</li>
+                  <li><b>Contact: </b> {{clinique && clinique.contact}} </li>
+                </ul>
+                <div *ngIf="clinique && clinique.agrementClinique == null">
+                  <div class="agr">
+                    <i class="bi bi-clipboard-x-fill"></i>
+                    <p><b>Agrement non renseigner</b></p>
+                  </div>
+                </div>
+                <div class="d-grid gap-2" *ngIf="clinique && clinique.agrementClinique">
+                  <button [cModalToggle]="modalXl.id" cButton class="tof-agrement">Afficher l'agrement de la clinique</button>
+                </div>
+            </div>
+        </div>
+
+        
+
+  <div class="detail">
+    <div class="head">
+      <div class="icon-head">
+        <i class="bi bi-justify-right" style="font-size:20px;color:#0657B5;padding-right: 1rem;margin-top: 2rem;"></i>
+        <h3 style="margin-bottom: 15px; margin-top: 2rem;">Description</h3>
+      </div>
+    </div>
+  </div>
+  
+  <div class="box-container" data-aos="zoom-in-up">
+      <div class="box">
+          <ul class="detail">
+            <li><b></b>{{clinique && clinique.descriptionClinique}} </li>
+          </ul>
+      </div>
+  </div>
+
+  
+
+       <c-modal #modalXl id="modalXl" size="xl">
+        <c-modal-header >
+          <h5 cModalTitle>Agrement</h5>
+          <button [cModalToggle]="modalXl.id" cButtonClose></button>
+        </c-modal-header>
+        <c-modal-body>
+          <img src="{{clinique && clinique.agrementClinique}}" alt="" class="im-modal">
+        </c-modal-body>
+      </c-modal>
+
+  
+                                                 
+    <h2>Liste de vos medecins</h2>  
+  
+    <button class="btn btn-outline-primary mb-2 me-2" (click)="open(content)" >
+      Ajouter
+    </button>
+  
+
+       <ng-template #content let-c="close" let-d="dismiss">
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Ajouter medecin</h4>
+          <button
+            type="button"
+            class="btn-close"
+            aria-label="Close"
+            (click)="d('Cross click')"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <form cForm class="row g-3">
+            <c-col [xs]="6">
+              <label cLabel for="nom">Nom *</label>
+              <input cFormControl id="nom" name="nom" type="text" [(ngModel)]="nom" placeholder="Nom" [value]="nom" required/>
+            </c-col>
+            <c-col [xs]="6">
+              <label cLabel for="prenom">Prenom *</label>
+              <input cFormControl id="prenom" name="prenom" type="text" [(ngModel)]="prenom" placeholder="Prenom" required/>
+            </c-col>
+    
+            <c-col [md]="12">
+              <label cLabel for="email">Email *</label>
+              <input cFormControl id="email" type="email" name="email" placeholder="Email" [(ngModel)]="email" required/>
+            </c-col>
+            <c-col [xs]="12">
+              <label cLabel for="sexe">Genre *</label>
+              <select aria-label="Default select example" cSelect id="sexe" name="sexe" [(ngModel)]="sexe">
+                <option selected disabled>Choisir genre</option>
+                <option value="Homme">Homme</option>
+                <option value="Femme">Femme</option>
+              </select>
+            </c-col>
+    
+            <c-col [xs]="12">
+              <label cLabel for="idSpec">Specialite *</label>
+              <select aria-label="Default select example" cSelect id="idSpec" name="idSpec" [(ngModel)]="idSpec">
+                <option selected disabled>--choisir specialite--</option>
+                <option *ngFor="let sp of specialites" value="{{sp.idSpecialite}}">{{sp.libelleSpecialite}}</option>
+              </select>
+            </c-col>
+    
+    
+            <c-col [xs]="12">
+              <label cLabel for="naissance">Date de naissance*</label>
+              <input cFormControl id="naissance" name="naissance" type="date" [(ngModel)]="naissance" required/>
+            </c-col>
+            <c-col [xs]="12">
+              <label cLabel for="contact">Contact *</label>
+              <input cFormControl id="contact" name="contact" placeholder="Phone professionnel" [(ngModel)]="contact" required/>
+            </c-col>
+            <div class="mb-3">
+              <label cLabel for="image">Image</label>
+              <input aria-label="file example" cFormControl id="image" name="image" type="file" (change)="recuperationImgMedecin($event)"/>
+              <c-form-feedback [valid]="false"
+                >Example invalid form file feedback</c-form-feedback
+              >
+            </div>
+    
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-outline-dark"
+            (click)="c('Save click')"
+            (click)="onCreateMedecin()"
+          >
+            Créer
+          </button>
+        </div>
+      </ng-template>
+
+      
+
+    <c-input-group class="input-prepend"  style="margin-bottom: 10px;width: 35%;">
+      <span cInputGroupText>
+        <svg cIcon name="cilMagnifyingGlass"></svg>
+      </span>
+      <input name="search" [(ngModel)]="searchText" cFormControl placeholder="Rechercher lune clinique" type="text" />
+      <button cButton color="info">Rechercher</button>
+    </c-input-group>
+  
+  
+      <c-alert color="danger" *ngIf="isLoginFailed">{{errorMess}}</c-alert>
+      <div class="alert alert-danger" role="alert" *ngIf="alertImage">
+        <i class="fa fa-ban" aria-hidden="true" style="color: red;"></i>{{errorMess}}
+      </div>
+  
+    <c-row>
+      <c-col xs>
+        <c-card class="mb-4">
+          <c-card-header>List des medecins</c-card-header>
+          <table
+            [hover]="true"
+            [responsive]="true"
+            [striped]="true"
+            align="middle"
+            cTable
+            class="mb-0 border"
+          >
+            <thead cTableColor="light">
+              <tr>
+                <th>ID</th>
+                <th class="text-center">Image</th>
+                <th>Nom & Prenom</th>
+                <th>Email</th>
+                <th>Specialite</th>
+                <th>Sexe</th>
+                <th>Naissance</th>
+                <th class="text-center">Contact</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody *ngIf="listmedecins">
+              <div class="listvide" *ngIf="listmedecins.length==0">
+                <label>Aucun medecin creer</label>
+              </div>
+              <tr *ngFor="let medecin of listmedecins;
+            let id = index">
+          
+
+            
+                <td class="data-text">
+                    {{id +1}}
+                </td>
+                <td>
+                  <div>
+                    <img *ngIf="medecin && medecin.imageMedecin" src="{{ medecin && medecin.imageMedecin }}" alt=""
+                    style="width:60px; height: 60px;border-radius: 50%;">
+                  </div>
+                  <div>
+                    <img *ngIf="medecin && medecin.imageMedecin==null" src="../../../assets/images/angular.jpg" alt=""
+                    style="width:60px; height: 60px;border-radius: 50%;">
+                  </div>
+                </td>
+                <td class="data-text">
+                  <div>{{medecin.prenomMedecin}} {{medecin.nomMedecin }}</div>
+                </td>
+                <td class="data-text">
+                  <div>{{medecin.emailMedecin}}</div>
+                </td>    
+                <td class="data-text">
+                  <div>{{specialiteClinique}}</div>
+                </td>
+                <td class="data-text">
+                  <div>{{medecin.sexeMedecin}}</div>
+                </td>
+                <td class="data-text">
+                  <div>{{medecin.naissanceMedecin}}</div>
+                </td>
+                <td class="data-text">
+                  <div>{{medecin.contactMedecin}}</div>
+                </td>
+                 <td>
+                    <div class="btn-group">
+                      <a class="btn btn-primary" 
+                      routerLink="/detailmedecin/{{medecin.idMedecin}}" 
+                      title="Voir details"
+                        ><i class="fa-solid fa-eye"></i
+                      ></a>
+                      <a
+                        class="btn btn-success"
+                        (click)="open(content)"
+                        title="Modifier" 
+                        ><i class="fa-solid fa-pen-to-square" (click)="Update()"></i
+                      ></a>
+                      <a class="btn btn-danger" title="Supprimer" (click)="deletePopUpMedecin(medecin.idMedecin)"
+                        ><i class="fa-solid fa-trash"></i
+                      ></a>
+                    </div>
+                  </td>
+              </tr>
+            </tbody>
+          </table>
+  
+   
+  
+        </c-card>
+      </c-col>
+    </c-row>
+
+  
+  
+  
+  
+  </div>
+</section>
+  
+  
+ <!--FIN DETAILS DE LA CLINIQUE-->
+

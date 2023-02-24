@@ -1,0 +1,159 @@
+<c-row>
+  <c-col xs="12"> </c-col>
+  <c-col xs="12" lg="12">
+    <c-card class="mb-4">
+      <c-card-header> Statistique </c-card-header>
+      <c-card-body>
+        <c-row>
+            <c-col lg="4" sm="6" xs="12">
+              <c-widget-stat-f
+                [title]="'total feedback'"
+                class="mb-3"
+                color="info"
+                padding
+                value="{{NbreFeedback}}"
+              > 
+                <ng-template cTemplateId="widgetIconTemplate">
+                  <svg cIcon name="cilBell" size="xl" width="24"></svg>
+                </ng-template>
+              </c-widget-stat-f>
+            </c-col>
+          </c-row>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>
+
+
+
+<div class="container">
+    <div class="row">
+    <div class="col-md-12">
+        <div class="chat_container">
+            <div class="job-box">
+                <div class="job-box-filter">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6">
+                        <label>Nombre 
+                        <select name="datatable_length" class="form-control input-sm">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        </select>
+                        entries</label>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <div class="filter-search-box text-right">
+                                <label>Rechercher:<input type="search" class="form-control input-sm" placeholder=""></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="inbox-message">
+                    <ul>
+                        <li>
+                            <a href="#">
+                                <div class="message-avatar">
+                                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="">
+                                </div>
+                                <div class="message-body">
+                                    <div class="message-body-heading">
+                                        <h5>Daniel Dock <span class="unread">Unread</span></h5>
+                                        <span>7 hours ago</span>
+                                    </div>
+                                    <p>Hello, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolor....</p>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <div class="message-avatar">
+                                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="">
+                                </div>
+                                <div class="message-body">
+                                    <div class="message-body-heading">
+                                        <h5>Daniel Dock <span class="unread">Unread</span></h5>
+                                        <span>7 hours ago</span>
+                                    </div>
+                                    <p>Hello, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolor....</p>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <div class="message-avatar">
+                                    <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="">
+                                </div>
+                                <div class="message-body">
+                                    <div class="message-body-heading">
+                                        <h5>Daniel Dock <span class="pending">Pending Work</span></h5>
+                                        <span>7 hours ago</span>
+                                    </div>
+                                    <p>Hello, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolor....</p>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <div class="message-avatar">
+                                    <img src="https://bootdey.com/img/Content/avatar/avatar4.png" alt="">
+                                </div>
+                                <div class="message-body">
+                                    <div class="message-body-heading">
+                                        <h5>Daniel Dock <span class="unread">Unread</span></h5>
+                                        <span>7 hours ago</span>
+                                    </div>
+                                    <p>Hello, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolor....</p>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <div class="message-avatar">
+                                    <img src="https://bootdey.com/img/Content/avatar/avatar5.png" alt="">
+                                </div>
+                                <div class="message-body">
+                                    <div class="message-body-heading">
+                                        <h5>Daniel Dock <span class="business">Business</span></h5>
+                                        <span>7 hours ago</span>
+                                    </div>
+                                    <p>Hello, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolor....</p>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <div class="message-avatar">
+                                    <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="">
+                                </div>
+                                <div class="message-body">
+                                    <div class="message-body-heading">
+                                        <h5>Daniel Dock <span class="important">Important</span></h5>
+                                        <span>7 hours ago</span>
+                                    </div>
+                                    <p>Hello, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolor....</p>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <div class="message-avatar">
+                                    <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="">
+                                </div>
+                                <div class="message-body">
+                                    <div class="message-body-heading">
+                                        <h5>Daniel Dock <span class="unread">Unread</span></h5>
+                                        <span>7 hours ago</span>
+                                    </div>
+                                    <p>Hello, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolor....</p>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
